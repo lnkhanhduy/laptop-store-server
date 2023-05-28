@@ -7,8 +7,8 @@
     "node": "18.x"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "node index.js"
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
