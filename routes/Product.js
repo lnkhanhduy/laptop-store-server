@@ -435,29 +435,6 @@ router.post('/add', verifyToken, verifyRole, uploadImage.array('images'), async 
   }
 });
 
-router.post('/update-laptop', uploadImage.array('images'), async (req, res) => {
-  const id = req.query.id;
-  const images = req.files;
-
-  try {
-    const newLaptop = await Product.findByIdAndUpdate(id, {
-      images,
-    });
-
-    await newLaptop?.images?.forEach((image) => {
-      const path = image.path.split('/');
-      const name = path[path.length - 1].split('.')[0];
-      cloudinary.uploader.destroy(`laptop-store/${name}`, function (error, result) {
-        console.log(result, error);
-      });
-    });
-
-    return res.json({ success: true, massage: 'Sửa sản phẩm thành công', product: newLaptop });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ success: false, message: 'Internal server error' });
-  }
-});
 //Cập nhật sản phẩm
 router.post('/update', verifyToken, verifyRole, uploadImage.array('images'), async (req, res) => {
   const id = req.query.id;
