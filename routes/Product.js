@@ -810,7 +810,7 @@ router.post('/delete', verifyToken, verifyRole, async (req, res) => {
   const id = req.query.id;
 
   try {
-    const deleteProduct = await Product.findByIdAndDelete(id);
+    const deleteProduct = await Product.findByIdAndDelete({ _id: id });
 
     await deleteProduct?.images?.forEach((image) => {
       const path = image.path.split('/');

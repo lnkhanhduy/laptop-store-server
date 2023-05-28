@@ -26,6 +26,19 @@ router.post('/add', verifyToken, async (req, res) => {
   }
 });
 
+//Xóa khỏi giỏ hàng
+router.post('/delete', verifyToken, async (req, res) => {
+  const { id } = req.body;
+  try {
+    const deleteCart = await Cart.findByIdAndDelete({ _id: id });
+
+    return res.json({ success: true, massage: 'Xóa khỏi giỏ hàng thành công', data: deleteCart });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+});
+
 //Tìm sản phẩm
 const findProduct = async (id) => {
   try {
@@ -103,11 +116,11 @@ router.post('/buy_product', verifyToken, async (req, res) => {
 });
 
 //Lấy tất cả trong giỏ hàng theo id user
-router.post('/', verifyToken, async (req, res) => {
-  const { idUser } = req.body;
+router.get('/', verifyToken, async (req, res) => {
+  const id = req.query.id;
 
   try {
-    const getAllCart = await Cart.find({ idUser });
+    const getAllCart = await Cart.find({ idUser: id });
 
     return res.json({ success: true, massage: 'Tất cả trong giỏ hàng', data: getAllCart });
   } catch (error) {
